@@ -1,6 +1,10 @@
+import fse from "fs-extra";
+import { resolvePath } from "./utils.js";
+
+const content = /* javascript */ `
 // Public config
 
-var antiCapthaPredefinedApiKey = "175fdf36ed03ec8de1e4f0deed745965";
+var antiCapthaPredefinedApiKey = "${process.env.ANTI_CAPTCHA_API_KEY}";
 
 var defaultConfig = {
   // settings
@@ -45,4 +49,15 @@ var defaultConfig = {
   // status
   account_key_checked: antiCapthaPredefinedApiKey ? true : false, // set after account_key check
   free_attempts_left_count: 15, // move to config
+};
+`;
+
+export const setupAnticaptcha = async () => {
+  const filePath = resolvePath(
+    import.meta.url,
+    "../../extensions/anticaptcha-0.65/js/config_ac_api_key.js",
+  );
+  console.log(filePath);
+  await fse.writeFile(filePath, content, "utf-8");
+  console.log("setup AntiCaptcha complete.");
 };

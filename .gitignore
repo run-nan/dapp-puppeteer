@@ -1,0 +1,7 @@
+.env
+
+dist
+
+node_modules
+
+extensions/anticaptcha-0.65/js/config_ac_api_key.js
