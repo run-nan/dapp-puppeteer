@@ -1,16 +1,27 @@
 import "dotenv/config.js";
-import { setupAnticaptcha } from "./lib/setup-anticaptcha.js";
 import { launchBrowser } from "./lib/puppeteer.js";
-import { setupMetamask } from "./lib/setup-metamask.js";
+import { Metamask } from "./lib/metamask.js";
+import { Beoble } from "./dapps/beoble.js";
 
 const run = async () => {
-  await setupAnticaptcha();
   const browser = await launchBrowser();
-  // browser.on("targetcreated", async (target) => {
-  //   console.log(await target.asPage());
-  // });
-  // await page.goto("https://beoble.app");
-  await setupMetamask(browser);
+  const metamask = new Metamask({
+    browser,
+    page: await Metamask.getHomePage(browser),
+  });
+  await metamask.init({
+    wallet: {
+      seedPhrase: process.env.WALLET_SEED as string,
+      password: process.env.WALLET_PASSWORD as string,
+    },
+  });
+  const beobleApp = new Beoble({
+    browser,
+    page: await Beoble.open(browser),
+    metamask,
+  });
+  await beobleApp.login();
+  await beobleApp.gmToGeneral();
 };
 
 run().catch((err) => {

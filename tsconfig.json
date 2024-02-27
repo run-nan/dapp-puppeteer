@@ -2,7 +2,7 @@
   "compilerOptions": {
     // Enable latest features
     "lib": ["ESNext"],
-    "target": "ES2015",
+    "target": "ES6",
     "module": "ESNext",
     "moduleDetection": "force",
     "allowJs": true,

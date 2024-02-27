@@ -1,0 +1,88 @@
+{
+  "title": "beoble/login",
+  "steps": [
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        [
+          "aria/Connect Wallet"
+        ],
+        [
+          "[data-testid='rk-connect-button']"
+        ],
+        [
+          "xpath///*[@data-testid=\"rk-connect-button\"]"
+        ],
+        [
+          "pierce/[data-testid='rk-connect-button']"
+        ],
+        [
+          "text/Connect Wallet"
+        ]
+      ],
+      "offsetY": 24.3046875,
+      "offsetX": 66.70526123046875,
+      "index": 0
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "delay": 5000,
+      "selectors": [
+        [
+          "aria/MetaMask"
+        ],
+        [
+          "[data-testid='rk-wallet-option-metaMask']"
+        ],
+        [
+          "xpath///*[@data-testid=\"rk-wallet-option-metaMask\"]"
+        ],
+        [
+          "pierce/[data-testid='rk-wallet-option-metaMask']"
+        ]
+      ],
+      "offsetY": 22.5,
+      "offsetX": 127.5,
+      "index": 1
+    },
+    {
+      "type": "click",
+      "target": "metamask://notification.html",
+      "selectors": [
+        [
+          "[data-testid='page-container-footer-next']"
+        ],
+        [
+          "xpath///*[@data-testid=\"page-container-footer-next\"]"
+        ],
+        [
+          "pierce/[data-testid='page-container-footer-next']"
+        ]
+      ],
+      "delay": 2000,
+      "offsetY": 24.53125,
+      "offsetX": 290,
+      "index": 2
+    },
+    {
+      "type": "click",
+      "target": "metamask://notification.html",
+      "selectors": [
+        [
+          "[data-testid='page-container-footer-next']"
+        ],
+        [
+          "xpath///*[@data-testid=\"page-container-footer-next\"]"
+        ],
+        [
+          "pierce/[data-testid='page-container-footer-next']"
+        ]
+      ],
+      "offsetY": 26.59375,
+      "offsetX": 293,
+      "index": 3
+    }
+  ]
+}

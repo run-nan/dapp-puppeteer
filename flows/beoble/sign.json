@@ -1,0 +1,29 @@
+{
+  "title": "beoble/sign",
+  "steps": [
+    {
+      "type": "click",
+      "target": "metamask://notification.html",
+      "selectors": [
+        [
+          "[data-testid='page-container-footer-next']"
+        ]
+      ],
+      "offsetY": 13.59375,
+      "offsetX": 72,
+      "index": 0
+    },
+    {
+      "type": "click",
+      "target": "metamask://notification.html",
+      "selectors": [
+        [
+          "[data-testid='page-container-footer-next']"
+        ]
+      ],
+      "offsetY": 24.59375,
+      "offsetX": 96,
+      "index": 1
+    }
+  ]
+}

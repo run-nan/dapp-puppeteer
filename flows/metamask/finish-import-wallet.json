@@ -1,0 +1,61 @@
+{
+  "title": "metamask/finish-import-wallet",
+  "steps": [
+    {
+      "wait": 3000,
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["aria/知道了！"],
+        ["[data-testid='onboarding-complete-done']"],
+        ["xpath///*[@data-testid=\"onboarding-complete-done\"]"],
+        ["pierce/[data-testid='onboarding-complete-done']"],
+        ["text/知道了！"]
+      ],
+      "offsetY": 24.9453125,
+      "offsetX": 56.5,
+      "index": 0
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["aria/下一步"],
+        ["[data-testid='pin-extension-next']"],
+        ["xpath///*[@data-testid=\"pin-extension-next\"]"],
+        ["pierce/[data-testid='pin-extension-next']"],
+        ["text/下一步"]
+      ],
+      "offsetY": 23,
+      "offsetX": 146,
+      "index": 1
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["aria/完成"],
+        ["[data-testid='pin-extension-done']"],
+        ["xpath///*[@data-testid=\"pin-extension-done\"]"],
+        ["pierce/[data-testid='pin-extension-done']"],
+        ["text/完成"]
+      ],
+      "offsetY": 23,
+      "offsetX": 146,
+      "index": 2
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["aria/关闭", "aria/[role=\"generic\"]"],
+        ["div.popover-header span"],
+        ["xpath///*[@data-testid=\"popover-close\"]/span"],
+        ["pierce/div.popover-header span"]
+      ],
+      "offsetY": 8.5,
+      "offsetX": 4.5,
+      "index": 3
+    }
+  ]
+}

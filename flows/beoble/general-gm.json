@@ -1,0 +1,96 @@
+{
+  "title": "Recording 2024/3/13 at 00:19:27",
+  "steps": [
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["aria/Search Address, ENS, Lens, name..."],
+        ["div.sc-290ef99f-0 input"],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div[1]/div/div[1]/div/div/div/input"
+        ],
+        ["pierce/div.sc-290ef99f-0 input"]
+      ],
+      "offsetY": 11,
+      "offsetX": 271
+    },
+    {
+      "type": "change",
+      "value": "general",
+      "selectors": [
+        ["aria/Search Address, ENS, Lens, name..."],
+        ["div.sc-290ef99f-0 input"],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div[1]/div/div[1]/div/div[2]/div/input"
+        ],
+        ["pierce/div.sc-290ef99f-0 input"]
+      ],
+      "target": "main"
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["div.sc-256605a5-0 > div > div:nth-of-type(1) button"],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div[1]/div/div[3]/div/div[1]/div[2]/div/div[2]/button"
+        ],
+        ["pierce/div.sc-256605a5-0 > div > div:nth-of-type(1) button"]
+      ],
+      "offsetY": 16.609375,
+      "offsetX": 19.359375
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["div.sc-256605a5-0 > div > div:nth-of-type(1) div.sc-444d367-2"],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div[1]/div/div[3]/div/div[1]/div[2]/div/div[1]"
+        ],
+        ["pierce/div.sc-256605a5-0 > div > div:nth-of-type(1) div.sc-444d367-2"]
+      ],
+      "offsetY": 30.40625,
+      "offsetX": 264
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["div.sc-75ab22bc-4"],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[2]/section/div/div/div[3]/div[2]/div/div[1]/div/div/div[1]"
+        ],
+        ["pierce/div.sc-75ab22bc-4"]
+      ],
+      "offsetY": 9.6953125,
+      "offsetX": 97.5
+    },
+    {
+      "type": "change",
+      "value": "GM",
+      "selectors": [
+        ["div.sc-75ab22bc-4"],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[2]/section/div/div/div[3]/div[2]/div/div[1]/div/div/div[1]"
+        ],
+        ["pierce/div.sc-75ab22bc-4"]
+      ],
+      "target": "main"
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["div.sc-75ab22bc-0 path:nth-of-type(2)"],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div[2]/div/main/div[2]/section/div/div/div[3]/div[2]/div/div[1]/button/svg/g/path[2]"
+        ],
+        ["pierce/div.sc-75ab22bc-0 path:nth-of-type(2)"]
+      ],
+      "offsetY": 6.3492431640625,
+      "offsetX": 9.5
+    }
+  ]
+}

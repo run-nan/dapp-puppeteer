@@ -57,7 +57,6 @@ export const setupAnticaptcha = async () => {
     import.meta.url,
     "../../extensions/anticaptcha-0.65/js/config_ac_api_key.js",
   );
-  console.log(filePath);
   await fse.writeFile(filePath, content, "utf-8");
   console.log("setup AntiCaptcha complete.");
 };

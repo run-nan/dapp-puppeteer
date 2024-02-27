@@ -1,0 +1,67 @@
+{
+  "title": "metamask/setup-import-wallet",
+  "steps": [
+    {
+      "wait": 3000,
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["aria/我同意MetaMask的使用条款"],
+        ["[data-testid='onboarding-terms-checkbox']"],
+        ["xpath///*[@data-testid=\"onboarding-terms-checkbox\"]"],
+        ["pierce/[data-testid='onboarding-terms-checkbox']"]
+      ],
+      "offsetY": 13,
+      "offsetX": 10.5,
+      "index": 0
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        [
+          "aria/导入现有钱包"
+        ],
+        [
+          "[data-testid='onboarding-import-wallet']"
+        ],
+        [
+          "xpath///*[@data-testid=\"onboarding-import-wallet\"]"
+        ],
+        [
+          "pierce/[data-testid='onboarding-import-wallet']"
+        ],
+        [
+          "text/导入现有钱包"
+        ]
+      ],
+      "offsetY": 33.40625,
+      "offsetX": 130.5,
+      "index": 1
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        [
+          "aria/我同意"
+        ],
+        [
+          "[data-testid='metametrics-i-agree']"
+        ],
+        [
+          "xpath///*[@data-testid=\"metametrics-i-agree\"]"
+        ],
+        [
+          "pierce/[data-testid='metametrics-i-agree']"
+        ],
+        [
+          "text/我同意"
+        ]
+      ],
+      "offsetY": 24.65625,
+      "offsetX": 97.5,
+      "index": 2
+    }
+  ]
+}
