@@ -14,18 +14,6 @@ import {
   ElementHandle,
 } from "puppeteer-core";
 import { delay } from "./utils.js";
-import { resolvePath } from "./utils.js";
-import fse from "fs-extra";
-import { dirname } from "path";
-
-const screenshot = async (page: Page, path: string) => {
-  if (!(await fse.exists(dirname(path)))) {
-    await fse.mkdir(dirname(path), { recursive: true });
-  }
-  await page.screenshot({
-    path,
-  });
-};
 
 export class DappRunnerExtension extends PuppeteerRunnerExtension {
   public browser: Browser;
@@ -58,7 +46,6 @@ export class DappRunnerExtension extends PuppeteerRunnerExtension {
       return null;
     }
     targetPage.setDefaultTimeout(this.timeout);
-    await targetPage.bringToFront();
     return targetPage;
   }
 
@@ -145,7 +132,6 @@ export class DappRunnerExtension extends PuppeteerRunnerExtension {
     await super.beforeAllSteps?.(flow);
   }
   async beforeEachStep(step: Step & { wait?: number }): Promise<void> {
-    await delay(500);
     if (step.wait) {
       await delay(step.wait);
     }
@@ -162,35 +148,33 @@ export class DappRunnerExtension extends PuppeteerRunnerExtension {
   }
   async runStep(step: Step, flow?: UserFlow): Promise<void> {
     const page = await this.getPageForStep(step);
-    if (page) {
-      screenshot(
-        page,
-        resolvePath(
-          import.meta.url,
-          `../../screenshots/${flow?.title}/${(step as any).index}.png`,
-        ),
-      );
-    }
+    console.log(page?.url());
     const frame = await this.getFrameForStep(page, step);
     let assertedEventsPromises: Promise<void>[] = [];
     assertedEventsPromises.push(this.waitForEvents(frame, step));
     switch (step.type) {
       case StepType.Click:
         await this.waitForElement(frame, step, async (element) => {
+          await element.evaluate((el) => {
+            el.style.border = "2px red solid";
+          });
           await element.click({
             button: step.button && mouseButtonMap.get(step.button),
             delay: step.duration,
-            offset: { x: step.offsetX, y: step.offsetY },
+            // offset: { x: step.offsetX, y: step.offsetY },
           });
         });
         break;
       case StepType.DoubleClick:
         await this.waitForElement(frame, step, async (element) => {
+          await element.evaluate((el) => {
+            el.style.border = "2px red solid";
+          });
           await element.click({
             count: 2,
             button: step.button && mouseButtonMap.get(step.button),
             delay: step.duration,
-            offset: { x: step.offsetX, y: step.offsetY },
+            // offset: { x: step.offsetX, y: step.offsetY },
           });
         });
         break;

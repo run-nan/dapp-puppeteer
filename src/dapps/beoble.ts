@@ -13,7 +13,8 @@ export class Beoble extends DappWithMetamask {
   }
   async login() {
     await setupAnticaptcha();
-    await this.runFlow("beoble/login");
+    await this.runFlow("beoble/login-x");
+    await this.metamask.connect();
     await this.page
       .waitForSelector(".antigate_solver.solved", {
         timeout: 180 * 1000,
@@ -24,6 +25,6 @@ export class Beoble extends DappWithMetamask {
     await this.runFlow("beoble/sign");
   }
   async gmToGeneral() {
-    await this.runFlow("beoble/gm-to-general");
+    await this.runFlow("beoble/general-gm");
   }
 }

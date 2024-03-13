@@ -21,7 +21,7 @@ const run = async () => {
     metamask,
   });
   await beobleApp.login();
-  await beobleApp.gmToGeneral();
+  // await beobleApp.gmToGeneral();
 };
 
 run().catch((err) => {

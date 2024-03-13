@@ -46,7 +46,9 @@ export class Metamask {
   private replayExtension: DappRunnerExtension;
   private status: Status = "unintialized";
   private extensionID: string;
+  private browser: Browser;
   constructor({ browser, page }: Options) {
+    this.browser = browser;
     this.page = page;
     this.replayExtension = new DappRunnerExtension(browser, this.page);
     this.status = "unintialized";
@@ -109,5 +111,29 @@ export class Metamask {
         await this.runFlow("metamask/finish-import-wallet");
       });
     this.status = "initialized";
+  }
+
+  public async connect() {
+    const target = await this.browser.waitForTarget((t) =>
+      t
+        .url()
+        .startsWith(
+          `chrome-extension://${this.extensionID}/notification.html#connect`,
+        ),
+    );
+    console.log("target", target.url());
+    const page = await target.page();
+    await page?.waitForSelector("text/下一步");
+    console.log("clicking next");
+    const nextBtn = await page?.waitForSelector(
+      ".button.btn--rounded.btn-primary.page-container__footer-button",
+    );
+    await nextBtn?.click();
+    await page?.waitForSelector("text/连接");
+    console.log("clicking connect");
+    const connectBtn = await page?.waitForSelector(
+      ".button.btn--rounded.btn-primary.page-container__footer-button",
+    );
+    await connectBtn?.click();
   }
 }

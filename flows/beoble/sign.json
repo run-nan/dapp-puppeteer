@@ -16,6 +16,7 @@
     {
       "type": "click",
       "target": "metamask://notification.html",
+      "wait": 4000,
       "selectors": [
         [
           "[data-testid='page-container-footer-next']"
