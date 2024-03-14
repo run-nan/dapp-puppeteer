@@ -1,5 +1,5 @@
 {
-  "title": "beoble/login",
+  "title": "beoble/connect",
   "steps": [
     {
       "type": "click",
@@ -45,31 +45,6 @@
       "offsetY": 22.5,
       "offsetX": 127.5,
       "index": 1
-    },
-    {
-      "type": "click",
-      "target": "metamask://notification.html",
-      "selectors": [
-        [
-          ".button.btn--rounded.btn-primary.page-container__footer-button"
-        ]
-      ],
-      "delay": 2000,
-      "offsetY": 24.53125,
-      "offsetX": 290,
-      "index": 2
-    },
-    {
-      "type": "click",
-      "target": "metamask://notification.html",
-      "selectors": [
-        [
-          ".button.btn--rounded.btn-primary.page-container__footer-button"
-        ]
-      ],
-      "offsetY": 26.59375,
-      "offsetX": 293,
-      "index": 3
     }
   ]
 }

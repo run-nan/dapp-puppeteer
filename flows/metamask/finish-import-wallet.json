@@ -2,8 +2,8 @@
   "title": "metamask/finish-import-wallet",
   "steps": [
     {
-      "wait": 3000,
       "type": "click",
+      "wait": 3000,
       "target": "main",
       "selectors": [
         ["aria/知道了！"],

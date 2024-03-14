@@ -11,10 +11,12 @@ interface BeobleAppOptions {
 }
 
 export class DappWithMetamask {
+  protected browser: Browser;
   protected page: Page;
   protected metamask: Metamask;
   protected replayExtension: DappRunnerExtension;
   constructor({ browser, page, metamask }: BeobleAppOptions) {
+    this.browser = browser;
     this.page = page;
     this.metamask = metamask;
     this.replayExtension = new DappRunnerExtension(browser, this.page);

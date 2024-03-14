@@ -1,66 +1,58 @@
-import type { Browser, Page } from "puppeteer-core";
-import {
-  createRunner,
-  StepType,
-  type Step,
-  type ChangeStep,
-} from "@puppeteer/replay";
+import type { Browser, Page, WaitForTargetOptions } from "puppeteer-core";
+import { createRunner, StepType, type ChangeStep } from "@puppeteer/replay";
 import { DappRunnerExtension } from "./dapp-runner-extension.js";
 import { loadFlow } from "./utils.js";
 
-interface Options {
+type Options = {
   browser: Browser;
-  page: Page;
-}
+};
 
 type Status = "unintialized" | "initialized";
 
-const MM_HOME_REGEX = "chrome-extension://[a-z]+/home.html";
+const EXTENSION_URL_PREFIX_PATTERN = "chrome-extension://([a-z]+)/";
 
 export class Metamask {
-  static async getHomePage(browser: Browser): Promise<Page> {
-    const pages = await browser.pages();
-    for (const page of pages) {
-      if (page.url().match(MM_HOME_REGEX)) {
-        return page;
-      }
-    }
-    return new Promise((resolve, reject) => {
-      browser.on("targetcreated", async (target) => {
-        if (target.url().match(MM_HOME_REGEX)) {
-          try {
-            const pages = await browser.pages();
-            for (const page of pages) {
-              if (page.url().match(MM_HOME_REGEX)) {
-                resolve(page);
-              }
-            }
-          } catch (e) {
-            reject(e);
-          }
-        }
-      });
-    });
-  }
-  private page: Page;
-  private replayExtension: DappRunnerExtension;
   private status: Status = "unintialized";
-  private extensionID: string;
+  private extensionID: string | null = null;
   private browser: Browser;
-  constructor({ browser, page }: Options) {
+  constructor(options: Options) {
+    const { browser } = options;
     this.browser = browser;
-    this.page = page;
-    this.replayExtension = new DappRunnerExtension(browser, this.page);
     this.status = "unintialized";
-    const pageUrl = page.url();
-    this.extensionID =
-      pageUrl.match(/chrome-extension:\/\/([a-z]+)/)?.[1] || "";
   }
 
-  private async runFlow(name: string) {
+  private async runFlow(page: Page, name: string) {
     const flow = loadFlow(name);
-    const runner = await createRunner(flow, this.replayExtension);
+    const runner = await createRunner(
+      flow,
+      new DappRunnerExtension(this.browser, page),
+    );
     await runner.run();
+  }
+
+  public async waitForMetamaskPage(
+    urlPrefix: string = "",
+    options?: WaitForTargetOptions,
+  ) {
+    const target = await this.browser.waitForTarget((t) => {
+      if (this.extensionID) {
+        return t
+          .url()
+          .startsWith(`chrome-extension://${this.extensionID}/${urlPrefix}`);
+      } else {
+        const extensionID =
+          t.url().match(EXTENSION_URL_PREFIX_PATTERN + urlPrefix)?.[1] || "";
+        if (extensionID) {
+          this.extensionID = extensionID;
+        }
+        return !!extensionID;
+      }
+    }, options);
+    const page = await target.page();
+    if (page) {
+      return page;
+    }
+    throw new Error(`Page not found for ${urlPrefix}`);
   }
 
   public getStatus() {
@@ -71,30 +63,46 @@ export class Metamask {
     return this.extensionID;
   }
 
-  public async init(options: {
-    wallet: {
-      seedPhrase: string;
-      password: string;
-    };
-  }) {
-    const { wallet } = options;
-    const { seedPhrase, password } = wallet;
+  private async fillInSeedPhrase(page: Page, seedPhrase: string) {
+    const seedPhraseList = seedPhrase.trim().split(" ");
+    const runner = await createRunner(
+      new DappRunnerExtension(this.browser, page),
+    );
+    await page.select("div.mm-box select", `${seedPhraseList.length}`);
+    let index = 0;
+    for (const word of seedPhraseList) {
+      await runner.runStep({
+        type: StepType.Change,
+        value: word,
+        selectors: [
+          [`[data-testid='import-srp__srp-word-${index}']`],
+          [`xpath///*[@data-testid="import-srp__srp-word-${index}"]`],
+          [`pierce/[data-testid='import-srp__srp-word-${index}']`],
+        ],
+        target: "main",
+      });
+      index++;
+    }
+    await runner.runStep({
+      type: StepType.Click,
+      target: "main",
+      selectors: [
+        ["aria/确认私钥助记词"],
+        ["[data-testid='import-srp-confirm']"],
+        ['xpath///*[@data-testid="import-srp-confirm"]'],
+        ["pierce/[data-testid='import-srp-confirm']"],
+      ],
+      offsetY: 0,
+      offsetX: 0,
+    });
+  }
 
-    await this.runFlow("metamask/setup-import-wallet")
+  public async importWallet(options: { seedPhrase: string; password: string }) {
+    const { seedPhrase, password } = options;
+    const page = await this.waitForMetamaskPage("home.html");
+    await this.runFlow(page, "metamask/setup-import-wallet")
       .then(async () => {
-        const flow = loadFlow("metamask/input-seed-phrase");
-        const steps = flow.steps;
-        const seedList = seedPhrase.trim().split(" ");
-        if (seedList.length !== 12) {
-          throw new Error("Invalid seed phrase");
-        }
-        steps
-          .filter((step) => step.type === StepType.Change)
-          .forEach((step, index) => {
-            (step as ChangeStep).value = seedList[index];
-          });
-        const runner = await createRunner(flow, this.replayExtension);
-        await runner.run();
+        await this.fillInSeedPhrase(page, seedPhrase);
       })
       .then(async () => {
         const flow = loadFlow("metamask/input-password");
@@ -104,36 +112,40 @@ export class Metamask {
           .forEach((step) => {
             (step as ChangeStep).value = password;
           });
-        const runner = await createRunner(flow, this.replayExtension);
+        const runner = await createRunner(
+          flow,
+          new DappRunnerExtension(this.browser, page),
+        );
         await runner.run();
       })
       .then(async () => {
-        await this.runFlow("metamask/finish-import-wallet");
+        await this.runFlow(page, "metamask/finish-import-wallet");
       });
     this.status = "initialized";
   }
 
   public async connect() {
-    const target = await this.browser.waitForTarget((t) =>
-      t
-        .url()
-        .startsWith(
-          `chrome-extension://${this.extensionID}/notification.html#connect`,
-        ),
-    );
-    console.log("target", target.url());
-    const page = await target.page();
-    await page?.waitForSelector("text/下一步");
-    console.log("clicking next");
-    const nextBtn = await page?.waitForSelector(
+    const page = await this.waitForMetamaskPage("notification.html#connect");
+    await page.waitForSelector("text/下一步");
+    const nextBtn = await page.waitForSelector(
       ".button.btn--rounded.btn-primary.page-container__footer-button",
     );
     await nextBtn?.click();
-    await page?.waitForSelector("text/连接");
-    console.log("clicking connect");
-    const connectBtn = await page?.waitForSelector(
+    await page.waitForSelector("text/连接");
+    const connectBtn = await page.waitForSelector(
       ".button.btn--rounded.btn-primary.page-container__footer-button",
     );
     await connectBtn?.click();
+  }
+
+  public async sign() {
+    const page = await this.waitForMetamaskPage(
+      "notification.html#confirm-transaction",
+    );
+    await page.waitForSelector("text/签名请求");
+    const signBtn = await page.waitForSelector(
+      "[data-testid='page-container-footer-next']",
+    );
+    await signBtn?.click();
   }
 }

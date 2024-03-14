@@ -2,9 +2,9 @@
   "title": "metamask/setup-import-wallet",
   "steps": [
     {
-      "wait": 5000,
       "type": "click",
       "target": "main",
+      "wait": 5000,
       "selectors": [
         ["aria/我同意MetaMask的使用条款"],
         ["[data-testid='onboarding-terms-checkbox']"],

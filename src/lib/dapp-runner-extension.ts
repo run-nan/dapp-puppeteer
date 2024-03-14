@@ -143,12 +143,13 @@ export class DappRunnerExtension extends PuppeteerRunnerExtension {
     if (step.delay) {
       await delay(step.delay);
     }
-    console.log(`Step [${step.index}] completed`);
+    if (typeof step.index === "number") {
+      console.log(`Step [${step.index}] completed`);
+    }
     await super.afterEachStep?.(step);
   }
   async runStep(step: Step, flow?: UserFlow): Promise<void> {
     const page = await this.getPageForStep(step);
-    console.log(page?.url());
     const frame = await this.getFrameForStep(page, step);
     let assertedEventsPromises: Promise<void>[] = [];
     assertedEventsPromises.push(this.waitForEvents(frame, step));
@@ -161,20 +162,15 @@ export class DappRunnerExtension extends PuppeteerRunnerExtension {
           await element.click({
             button: step.button && mouseButtonMap.get(step.button),
             delay: step.duration,
-            // offset: { x: step.offsetX, y: step.offsetY },
           });
         });
         break;
       case StepType.DoubleClick:
         await this.waitForElement(frame, step, async (element) => {
-          await element.evaluate((el) => {
-            el.style.border = "2px red solid";
-          });
           await element.click({
             count: 2,
             button: step.button && mouseButtonMap.get(step.button),
             delay: step.duration,
-            // offset: { x: step.offsetX, y: step.offsetY },
           });
         });
         break;
@@ -191,7 +187,6 @@ export class DappRunnerExtension extends PuppeteerRunnerExtension {
       case StepType.Scroll:
         if ("selectors" in step) {
           await this.waitForElement(frame, step, async (element) => {
-            // TODO: I don't know if it works :(
             await element.evaluate(
               (el, scrollLeft, scrollTop) => {
                 el.scrollLeft = scrollLeft;

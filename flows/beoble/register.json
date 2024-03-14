@@ -1,0 +1,113 @@
+{
+  "title": "beoble/register",
+  "steps": [
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        [
+          "aria/Invitation code"
+        ],
+        [
+          "div.sc-290ef99f-0 input"
+        ],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div/div[1]/div[2]/div[2]/input"
+        ],
+        [
+          "pierce/div.sc-290ef99f-0 input"
+        ]
+      ],
+      "offsetY": 2.203125,
+      "offsetX": 194,
+      "index": 0
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        [
+          "aria/Next",
+          "aria/[role=\"generic\"]"
+        ],
+        [
+          "div.sc-ff4dc7c4-3 div"
+        ],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div/div[2]/button/div"
+        ],
+        [
+          "pierce/div.sc-ff4dc7c4-3 div"
+        ],
+        [
+          "text/Next"
+        ]
+      ],
+      "offsetY": 1.796875,
+      "offsetX": 29.078125,
+      "index": 1
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        [
+          "aria/Next"
+        ],
+        [
+          "button.sc-e29d97c2-1"
+        ],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div/div[5]/button[2]"
+        ],
+        [
+          "pierce/button.sc-e29d97c2-1"
+        ]
+      ],
+      "offsetY": 11.796875,
+      "offsetX": 131.3046875,
+      "index": 2
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        [
+          "aria/beoble"
+        ],
+        [
+          "div.sc-290ef99f-0 input"
+        ],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div/form/div[1]/div[2]/div[1]/div[2]/input"
+        ],
+        [
+          "pierce/div.sc-290ef99f-0 input"
+        ]
+      ],
+      "offsetY": 24.6015625,
+      "offsetX": 67,
+      "index": 3
+    },
+    {
+      "type": "change",
+      "value": "xxxxxxxx",
+      "selectors": [
+        [
+          "aria/beoble"
+        ],
+        [
+          "div.sc-290ef99f-0 input"
+        ],
+        [
+          "xpath///*[@id=\"__next\"]/main/div[2]/div/div/main/div[1]/div/div/form/div[1]/div[2]/div[1]/div[2]/input"
+        ],
+        [
+          "pierce/div.sc-290ef99f-0 input"
+        ]
+      ],
+      "target": "main",
+      "index": 4
+    }
+  ]
+}
